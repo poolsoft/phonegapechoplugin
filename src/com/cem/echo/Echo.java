@@ -113,7 +113,12 @@ package com.cem.echo;
 			return true;
 		}
 		
-		protected boolean sign(int certIndex, String password, String sourceFilePath, CallbackContext callbackContext) {
+		protected boolean sign(int _certIndex, String _password, String _sourceFilePath, CallbackContext _callbackContext) {
+			final int certIndex = _certIndex;
+			final String password = _password;
+			final String sourceFilePath = _sourceFilePath;
+			final CallbackContext callbackContext = _callbackContext;
+			
 			System.out.println("-----sign: entrance: " + certIndex + " " + password + " " + sourceFilePath );
 				cordova.getActivity().runOnUiThread(new Runnable() {
 				    public void run() {
@@ -175,16 +180,18 @@ package com.cem.echo;
 							pluginResult.setKeepCallback(true);
 							callbackContext.sendPluginResult(pluginResult);
 							//callbackContext.error("İmzalama sırasında bir hata oluştu. Lütfen şifrenizi kontrol edip tekrar deneyiniz.");
-							return false;
+							//return false;
 						}
 			
 						PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
 						pluginResult.setKeepCallback(true);
 						callbackContext.sendPluginResult(pluginResult);
 						//callbackContext.success();
-						return true;
+						//return true;
 				    }
 				});		
+				
+				return true;
 			
 		}
 		

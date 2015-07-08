@@ -115,73 +115,77 @@ package com.cem.echo;
 		
 		protected boolean sign(int certIndex, String password, String sourceFilePath, CallbackContext callbackContext) {
 			System.out.println("-----sign: entrance: " + certIndex + " " + password + " " + sourceFilePath );
-							
-			try {
+				cordova.getActivity().runOnUiThread(new Runnable() {
+				    public void run() {
+				        try {
 				
-				String destFilePath = sourceFilePath + ".sgn";
+							String destFilePath = sourceFilePath + ".sgn";
 					
-				mAPDUSmartCard.login(password);
+							mAPDUSmartCard.login(password);
 				
-				ECertificate signCert = certificateList.get(certIndex);
+							ECertificate signCert = certificateList.get(certIndex);
 				
-				BaseSigner signer = mAPDUSmartCard.getSigner(signCert.asX509Certificate(), Algorithms.SIGNATURE_RSA_SHA1);
-				BaseSignedData bsd = new BaseSignedData();
+							BaseSigner signer = mAPDUSmartCard.getSigner(signCert.asX509Certificate(), Algorithms.SIGNATURE_RSA_SHA1);
+							BaseSignedData bsd = new BaseSignedData();
 
-				System.out.println("--------------LOGIN BASARILI------------");
+							System.out.println("--------------LOGIN BASARILI------------");
 				
-				File tempFile = new File("cem1.txt");
-				System.out.println("---temp file: " + tempFile.getAbsolutePath());
+							File tempFile = new File("cem1.txt");
+							System.out.println("---temp file: " + tempFile.getAbsolutePath());
 				
-				CordovaResourceApi resourceApi = webView.getResourceApi();
-				Uri sourceUri = resourceApi.remapUri(Uri.fromFile(new File("cem2.txt")));
-				System.out.println("---source uri: " + sourceUri);
+							CordovaResourceApi resourceApi = webView.getResourceApi();
+							Uri sourceUri = resourceApi.remapUri(Uri.fromFile(new File("cem2.txt")));
+							System.out.println("---source uri: " + sourceUri);
 				
-				tempFile = resourceApi.mapUriToFile(Uri.parse(sourceFilePath));
-				System.out.println("sourcefilepath....");
-				if(tempFile != null) {
-					System.out.println(tempFile.getAbsolutePath());
-				} else {
-					System.out.println("null file");
-				}
+							tempFile = resourceApi.mapUriToFile(Uri.parse(sourceFilePath));
+							System.out.println("sourcefilepath....");
+							if(tempFile != null) {
+								System.out.println(tempFile.getAbsolutePath());
+							} else {
+								System.out.println("null file");
+							}
 				
-				System.out.println("sourceuri...");
-				tempFile = resourceApi.mapUriToFile(sourceUri);
-				if(tempFile != null) {
-					System.out.println(tempFile.getAbsolutePath());
-				} else {
-					System.out.println("null file");
-				}
+							System.out.println("sourceuri...");
+							tempFile = resourceApi.mapUriToFile(sourceUri);
+							if(tempFile != null) {
+								System.out.println(tempFile.getAbsolutePath());
+							} else {
+								System.out.println("null file");
+							}
 				
-				ISignable content = new SignableFile(new File(sourceFilePath));
-				bsd.addContent(content);
-				//Since SigningTime attribute is optional,add it to optional attributes list
-				List<IAttribute> optionalAttributes = new ArrayList<IAttribute>();
-				optionalAttributes.add(new SigningTimeAttr(Calendar.getInstance()));
-				HashMap<String, Object> params = new HashMap<String, Object>();
+							ISignable content = new SignableFile(tempFile);
+							bsd.addContent(content);
+							//Since SigningTime attribute is optional,add it to optional attributes list
+							List<IAttribute> optionalAttributes = new ArrayList<IAttribute>();
+							optionalAttributes.add(new SigningTimeAttr(Calendar.getInstance()));
+							HashMap<String, Object> params = new HashMap<String, Object>();
 
-				params.put(EParameters.P_VALIDATE_CERTIFICATE_BEFORE_SIGNING,false);
-				bsd.addSigner(ESignatureType.TYPE_BES, signCert, signer, optionalAttributes, params);
-				byte [] signedDocument = bsd.getEncoded();
-				System.out.println("İmzalama işlemi tamamlandı. Dosyaya yazılacak. Imzali Veri ="+(signedDocument.toString()));
+							params.put(EParameters.P_VALIDATE_CERTIFICATE_BEFORE_SIGNING,false);
+							bsd.addSigner(ESignatureType.TYPE_BES, signCert, signer, optionalAttributes, params);
+							byte [] signedDocument = bsd.getEncoded();
+							System.out.println("İmzalama işlemi tamamlandı. Dosyaya yazılacak. Imzali Veri ="+(signedDocument.toString()));
 				
-				AsnIO.dosyayaz(signedDocument, destFilePath);
+							AsnIO.dosyayaz(signedDocument, destFilePath);
 				
-				mAPDUSmartCard.logout();
-				mAPDUSmartCard.closeSession();
-			} catch(Exception e) {
-				e.printStackTrace();
-				PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR);
-				pluginResult.setKeepCallback(true);
-				callbackContext.sendPluginResult(pluginResult);
-				//callbackContext.error("İmzalama sırasında bir hata oluştu. Lütfen şifrenizi kontrol edip tekrar deneyiniz.");
-				return false;
-			}
+							mAPDUSmartCard.logout();
+							mAPDUSmartCard.closeSession();
+						} catch(Exception e) {
+							e.printStackTrace();
+							PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR);
+							pluginResult.setKeepCallback(true);
+							callbackContext.sendPluginResult(pluginResult);
+							//callbackContext.error("İmzalama sırasında bir hata oluştu. Lütfen şifrenizi kontrol edip tekrar deneyiniz.");
+							return false;
+						}
 			
-			PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
-			pluginResult.setKeepCallback(true);
-			callbackContext.sendPluginResult(pluginResult);
-			//callbackContext.success();
-			return true;
+						PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
+						pluginResult.setKeepCallback(true);
+						callbackContext.sendPluginResult(pluginResult);
+						//callbackContext.success();
+						return true;
+				    }
+				});		
+			
 		}
 		
         @Override
