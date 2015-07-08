@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/LinearLayout01"
+	android:layout_width="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
+	android:paddingLeft="10sp" android:paddingRight="10sp"
+	android:layout_height="wrap_content"
+	android:orientation="vertical" android:paddingTop="2sp">
+	<LinearLayout
+			android:orientation="horizontal"
+			android:layout_width="fill_parent"
+			android:layout_height="87dp">
+		<CheckBox
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:id="@+id/cb_selected_cert" android:layout_marginRight="15dp"
+				android:layout_gravity="center"/>
+		<LinearLayout
+				android:orientation="vertical"
+				android:layout_width="fill_parent"
+				android:layout_height="fill_parent">
+			<TextView android:layout_height="29dp"
+				android:layout_width="fill_parent" android:id="@+id/tvIdNumber"
+				android:typeface="sans" android:textSize="16sp" android:textStyle="bold" android:text="TC Kimlik No"
+				android:layout_marginTop="5dp"></TextView>
+			<LinearLayout android:id="@+id/LinearLayout02"
+				android:layout_height="28dp"
+				android:layout_width="fill_parent">
+				<TextView android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:textStyle="bold"
+					android:text="Ad Soyad :" android:textSize="13sp"></TextView>
+				<TextView android:layout_width="wrap_content"
+					android:layout_height="wrap_content" android:text="Ramazan Girgin"
+					android:id="@+id/tvNameAndSurname" android:textSize="13sp"></TextView>
+			</LinearLayout>
+			<LinearLayout android:id="@+id/linearLayout" android:layout_height="30dp"
+						  android:layout_width="fill_parent">
+				<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:textStyle="bold"
+						  android:text="Nitelik Durumu :" android:textSize="13sp"/>
+				<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Number"
+						  android:id="@+id/tvQulifiedStatus" android:textSize="13sp"/>
+			</LinearLayout>
+		</LinearLayout>
+	</LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			  android:orientation="vertical" android:layout_width="fill_parent"
+			  android:layout_height="fill_parent">
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:text="Sertifika Listesi"
+			android:id="@+id/textView" android:layout_alignLeft="@+id/textView2" android:layout_alignParentTop="true"
+			android:layout_marginTop="23dp"/>
+	<TextView
+			android:layout_width="wrap_content"
+			android:layout_height="40dp"
+			android:text="@string/text_FileName"
+			android:id="@+id/textView2"
+			android:layout_alignLeft="@+id/textView1" android:layout_alignParentTop="true"
+			android:layout_marginTop="300dp"/>
+
+	<TextView
+	    android:id="@+id/txtFilePath"
+	    android:layout_width="273dp"
+	    android:layout_height="40dp"
+	    android:layout_alignTop="@+id/textView2"
+	    android:layout_toRightOf="@+id/textView"
+	    android:hint="@string/hint_select_file"
+	    android:text="/etc/audio_effects.conf" />
+
+	<Button
+			android:layout_width="82dp"
+			android:layout_height="43dp"
+			android:text="..."
+			android:id="@+id/btn_SelectFile"
+			android:layout_alignParentLeft="true" android:layout_marginLeft="416dp"
+			android:layout_alignTop="@+id/textView2" android:focusable="true" android:focusableInTouchMode="true"/>
+	<TextView
+			android:layout_width="85dp"
+			android:layout_height="wrap_content"
+			android:text="@string/txt_Parola"
+			android:id="@+id/textView1"
+			android:layout_alignLeft="@+id/btn_Sign" android:layout_alignParentTop="true"
+			android:layout_marginTop="380dp"/>
+	<Button
+            android:layout_width="142dp"
+            android:layout_height="55dp"
+            android:text="@string/txt_Sign"
+            android:id="@+id/btn_Sign"
+			android:layout_alignParentLeft="true" android:layout_marginLeft="27dp" android:layout_alignParentTop="true"
+			android:layout_marginTop="447dp"/>
+
+	<EditText
+	    android:id="@+id/editPassword"
+	    android:layout_width="279dp"
+	    android:layout_height="56dp"
+	    android:layout_alignBaseline="@+id/textView1"
+	    android:layout_toRightOf="@+id/textView"
+	    android:hint="@string/hint_Enter_Password"
+	    android:password="true"
+	    android:text="12345" />
+
+	<ListView
+			android:layout_width="439dp"
+			android:layout_height="212dp"
+			android:id="@+id/certListView" android:layout_alignLeft="@+id/textView" android:layout_alignParentTop="true"
+			android:layout_marginTop="59dp"/>
+</RelativeLayout>
+
