@@ -85,6 +85,7 @@ package com.cem.echo;
 					//}
 				}
 			} catch(Exception e) {
+				e.printStackTrace();
 				callbackContext.error("Sertifikaları alırken bir hata oluştu.");
 				return false;
 			}
