@@ -86,7 +86,9 @@ package com.cem.echo;
 			
 			String[] res = new String[ certs.size() ];
 			certs.toArray( res );
-			callbackContext.success(res);
+			
+			callbackContext.sendPluginResult(new PluginResult(PluginResult.Status.OK, new JSONArray(certs)));
+			callbackContext.success();
 			return true;
 		}
 		
@@ -125,7 +127,7 @@ package com.cem.echo;
 				return false;
 			}
 			
-			callbackContext.success("Şifreleme başarılı.");
+			callbackContext.success();
 			return true;
 		}
 		
