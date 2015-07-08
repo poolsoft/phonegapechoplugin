@@ -4,6 +4,8 @@ package com.cem.echo;
     import org.apache.cordova.CallbackContext;
     import android.content.res.Resources;
 	import org.apache.cordova.PluginResult;
+	import org.apache.cordova.CordovaResourceApi;
+	import android.net.Uri;
 
     import org.json.JSONArray;
 	import org.json.JSONException;
@@ -127,8 +129,28 @@ package com.cem.echo;
 
 				System.out.println("--------------LOGIN BASARILI------------");
 				
-				File tempFile = new File("cem.txt");
+				File tempFile = new File("cem1.txt");
 				System.out.println("---temp file: " + tempFile.getAbsolutePath());
+				
+				CordovaResourceApi resourceApi = webView.getResourceApi();
+				Uri sourceUri = resourceApi.remapUri(Uri.fromFile(new File("cem2.txt")));
+				System.out.println("---source uri: " + sourceUri);
+				
+				tempFile = resourceApi.mapUriToFile(sourceFilePath);
+				System.out.println("sourcefilepath....");
+				if(tempFile != null) {
+					System.out.println(tempFile.getAbsolutePath());
+				} else {
+					System.out.println("null file");
+				}
+				
+				System.out.println("sourceuri...");
+				tempFile = resourceApi.mapUriToFile(sourceUri);
+				if(tempFile != null) {
+					System.out.println(tempFile.getAbsolutePath());
+				} else {
+					System.out.println("null file");
+				}
 				
 				ISignable content = new SignableFile(new File(sourceFilePath));
 				bsd.addContent(content);
