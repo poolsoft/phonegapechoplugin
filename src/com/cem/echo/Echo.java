@@ -2,6 +2,8 @@ package com.cem.echo;
 
     import org.apache.cordova.CordovaPlugin;
     import org.apache.cordova.CallbackContext;
+    import android.content.res.Resources;
+	import org.apache.cordova.PluginResult;
 
     import org.json.JSONArray;
 	import org.json.JSONException;
@@ -51,7 +53,13 @@ package com.cem.echo;
 			
 							
 			try {
-				InputStream lisansStream = cordova.getActivity().getResources().openRawResource(cordova.getActivity().getResources().getIdentifier("lisans", "raw", cordova.getActivity().getPackageName()));
+/*				InputStream lisansStream = cordova.getActivity().getResources().openRawResource(cordova.getActivity().getResources().getIdentifier("lisans", "raw", cordova.getActivity().getPackageName()));
+				LicenseUtil.setLicenseXml(lisansStream);
+				lisansStream.close();*/
+				
+				Resources activityRes = cordova.getActivity().getResources();
+				int lisansid = activityRes.getIdentifier("lisans", "raw", cordova.getActivity().getPackageName());
+				InputStream lisansStream = activityRes.openRawResource(lisansid);
 				LicenseUtil.setLicenseXml(lisansStream);
 				lisansStream.close();
 			
@@ -86,14 +94,20 @@ package com.cem.echo;
 				}
 			} catch(Exception e) {
 				e.printStackTrace();
-				callbackContext.error("Sertifikaları alırken bir hata oluştu.");
+				PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR);
+				pluginResult.setKeepCallback(true);
+				callbackContext.sendPluginResult(pluginResult);
+				//callbackContext.error("Sertifikaları alırken bir hata oluştu.");
 				return false;
 			}
 			
 			String[] res = new String[ certs.size() ];
 			certs.toArray( res );
 			
-			callbackContext.success(new JSONArray(certs));
+			PluginResult pluginResult = new PluginResult(PluginResult.Status.OK, new JSONArray(certs));
+			pluginResult.setKeepCallback(true);
+			callbackContext.sendPluginResult(pluginResult);
+			//callbackContext.success(new JSONArray(certs));
 			return true;
 		}
 		
@@ -130,11 +144,17 @@ package com.cem.echo;
 				mAPDUSmartCard.logout();
 				mAPDUSmartCard.closeSession();
 			} catch(Exception e) {
-				callbackContext.error("İmzalama sırasında bir hata oluştu. Lütfen şifrenizi kontrol edip tekrar deneyiniz.");
+				PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR);
+				pluginResult.setKeepCallback(true);
+				callbackContext.sendPluginResult(pluginResult);
+				//callbackContext.error("İmzalama sırasında bir hata oluştu. Lütfen şifrenizi kontrol edip tekrar deneyiniz.");
 				return false;
 			}
 			
-			callbackContext.success();
+			PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
+			pluginResult.setKeepCallback(true);
+			callbackContext.sendPluginResult(pluginResult);
+			//callbackContext.success();
 			return true;
 		}
 		

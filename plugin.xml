@@ -40,5 +40,8 @@
 		<source-file src="src/libs/ma3api-smartcard-android-ccid-2.1.2.jar" target-dir="libs" />    
 		<source-file src="src/libs/slf4j-api-1.6.6.jar" target-dir="libs" />    
 		<source-file src="src/libs/sunpkcs11.jar" target-dir="libs" />     
+		
+		<resource-file src="src/res/raw/lisans.xml" target="res/raw/lisans.xml" />
+
      </platform>          
 </plugin>
