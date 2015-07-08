@@ -136,7 +136,7 @@ package com.cem.echo;
 				Uri sourceUri = resourceApi.remapUri(Uri.fromFile(new File("cem2.txt")));
 				System.out.println("---source uri: " + sourceUri);
 				
-				tempFile = resourceApi.mapUriToFile(sourceFilePath);
+				tempFile = resourceApi.mapUriToFile(Uri.parse(sourceFilePath));
 				System.out.println("sourcefilepath....");
 				if(tempFile != null) {
 					System.out.println(tempFile.getAbsolutePath());
