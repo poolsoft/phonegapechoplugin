@@ -127,6 +127,9 @@ package com.cem.echo;
 
 				System.out.println("--------------LOGIN BASARILI------------");
 				
+				File tempFile = new File("cem.txt");
+				System.out.println("---temp file: " + tempFile.getAbsolutePath());
+				
 				ISignable content = new SignableFile(new File(sourceFilePath));
 				bsd.addContent(content);
 				//Since SigningTime attribute is optional,add it to optional attributes list
