@@ -116,7 +116,8 @@ package com.cem.echo;
 		protected boolean sign(int _certIndex, String _password, String _sourceFilePath, CallbackContext _callbackContext) {
 			final int certIndex = _certIndex;
 			final String password = _password;
-			final String sourceFilePath = _sourceFilePath;
+			final String sourceFilePath = _sourceFilePath.replaceAll("file://", "");
+			
 			final CallbackContext callbackContext = _callbackContext;
 			
 			System.out.println("-----sign: entrance: " + certIndex + " " + password + " " + sourceFilePath );
@@ -135,7 +136,7 @@ package com.cem.echo;
 
 							System.out.println("--------------LOGIN BASARILI------------");
 				
-							File tempFile = new File("cem1.txt");
+							/*File tempFile = new File("cem1.txt");
 							System.out.println("---temp file: " + tempFile.getAbsolutePath());
 				
 							CordovaResourceApi resourceApi = webView.getResourceApi();
@@ -156,9 +157,9 @@ package com.cem.echo;
 								System.out.println(tempFile.getAbsolutePath());
 							} else {
 								System.out.println("null file");
-							}
+							}*/
 				
-							ISignable content = new SignableFile(tempFile);
+							ISignable content = new SignableFile(sourceFilePath);
 							bsd.addContent(content);
 							//Since SigningTime attribute is optional,add it to optional attributes list
 							List<IAttribute> optionalAttributes = new ArrayList<IAttribute>();

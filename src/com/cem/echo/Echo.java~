@@ -113,7 +113,12 @@ package com.cem.echo;
 			return true;
 		}
 		
-		protected boolean sign(int certIndex, String password, String sourceFilePath, CallbackContext callbackContext) {
+		protected boolean sign(int _certIndex, String _password, String _sourceFilePath, CallbackContext _callbackContext) {
+			final int certIndex = _certIndex;
+			final String password = _password;
+			final String sourceFilePath = _sourceFilePath;
+			final CallbackContext callbackContext = _callbackContext;
+			
 			System.out.println("-----sign: entrance: " + certIndex + " " + password + " " + sourceFilePath );
 				cordova.getActivity().runOnUiThread(new Runnable() {
 				    public void run() {
@@ -130,7 +135,7 @@ package com.cem.echo;
 
 							System.out.println("--------------LOGIN BASARILI------------");
 				
-							File tempFile = new File("cem1.txt");
+							/*File tempFile = new File("cem1.txt");
 							System.out.println("---temp file: " + tempFile.getAbsolutePath());
 				
 							CordovaResourceApi resourceApi = webView.getResourceApi();
@@ -151,9 +156,9 @@ package com.cem.echo;
 								System.out.println(tempFile.getAbsolutePath());
 							} else {
 								System.out.println("null file");
-							}
+							}*/
 				
-							ISignable content = new SignableFile(tempFile);
+							ISignable content = new SignableFile(sourceFilePath.replaceAll("file://", ""));
 							bsd.addContent(content);
 							//Since SigningTime attribute is optional,add it to optional attributes list
 							List<IAttribute> optionalAttributes = new ArrayList<IAttribute>();
@@ -175,16 +180,18 @@ package com.cem.echo;
 							pluginResult.setKeepCallback(true);
 							callbackContext.sendPluginResult(pluginResult);
 							//callbackContext.error("İmzalama sırasında bir hata oluştu. Lütfen şifrenizi kontrol edip tekrar deneyiniz.");
-							return false;
+							//return false;
 						}
 			
 						PluginResult pluginResult = new PluginResult(PluginResult.Status.OK);
 						pluginResult.setKeepCallback(true);
 						callbackContext.sendPluginResult(pluginResult);
 						//callbackContext.success();
-						return true;
+						//return true;
 				    }
 				});		
+				
+				return true;
 			
 		}
 		
