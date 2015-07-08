@@ -144,6 +144,7 @@ package com.cem.echo;
 				mAPDUSmartCard.logout();
 				mAPDUSmartCard.closeSession();
 			} catch(Exception e) {
+				e.printStackTrace();
 				PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR);
 				pluginResult.setKeepCallback(true);
 				callbackContext.sendPluginResult(pluginResult);

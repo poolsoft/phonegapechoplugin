@@ -112,7 +112,7 @@ package com.cem.echo;
 		}
 		
 		protected boolean sign(int certIndex, String password, String sourceFilePath, CallbackContext callbackContext) {
-			System.out.println("-----sign: entrance");
+			System.out.println("-----sign: entrance: " + certIndex + " " + password + " " + sourceFilePath );
 							
 			try {
 				
