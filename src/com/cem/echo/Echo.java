@@ -44,15 +44,13 @@ package com.cem.echo;
 		public APDUSmartCard mAPDUSmartCard;
 		public List<ECertificate> certificateList;
 		
-		protected String[] getCertificateList() {
+		protected boolean getCertificateList(CallbackContext callbackContext) {
 			List<String> certs = new ArrayList<String>();
 			
 			try {
 				InputStream lisansStream = cordova.getActivity().getResources().openRawResource(cordova.getActivity().getResources().getIdentifier("lisans", "raw", cordova.getActivity().getPackageName()));
 				LicenseUtil.setLicenseXml(lisansStream);
 				lisansStream.close();
-			
-			
 			
 				mTerminalHandler = new SCDTerminalHandler(cordova.getActivity());
 	
@@ -82,15 +80,17 @@ package com.cem.echo;
 					//}
 				}
 			} catch(Exception e) {
-				return null;
+				callbackContext.error("Sertifikaları alırken bir hata oluştu.");
+				return false;
 			}
 			
 			String[] res = new String[ certs.size() ];
 			certs.toArray( res );
-			return res;
+			callbackContext.success(res);
+			return true;
 		}
 		
-		protected boolean sign(int certIndex, String password, String sourceFilePath) {
+		protected boolean sign(int certIndex, String password, String sourceFilePath, CallbackContext callbackContext) {
 			try {
 				
 				String destFilePath = sourceFilePath + ".sgn";
@@ -121,113 +121,24 @@ package com.cem.echo;
 				mAPDUSmartCard.logout();
 				mAPDUSmartCard.closeSession();
 			} catch(Exception e) {
+				callbackContext.error("İmzalama sırasında bir hata oluştu. Lütfen şifrenizi kontrol edip tekrar deneyiniz.");
 				return false;
 			}
 			
+			callbackContext.success("Şifreleme başarılı.");
 			return true;
 		}
 		
         @Override
         public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
 			if (action.equals("getCertificateList")) {
+				return this.getCertificateList(callbackContext);
 			}
 			else if(action.equals("sign")) {
-			}
-            else if (action.equals("echo")) {
-                System.out.println("---------hello world----------");
-				String message = args.getString(0);
-                //this.echo(message, callbackContext);
-				
-				
-				
-				try {
-					InputStream lisansStream = cordova.getActivity().getResources().openRawResource(cordova.getActivity().getResources().getIdentifier("lisans", "raw", cordova.getActivity().getPackageName()));
-					LicenseUtil.setLicenseXml(lisansStream);
-					lisansStream.close();
-					
-					
-					
-					mTerminalHandler = new SCDTerminalHandler(cordova.getActivity());
-			
-					mAPDUSmartCard = new APDUSmartCard(mTerminalHandler);
-					mAPDUSmartCard.setDisableSecureMessaging(true);
-					
-					CardTerminal[] terminalList = mAPDUSmartCard.getTerminalList();
-					CardTerminal cardTerminal = terminalList[0];
-					
-					//System.out.println("hehehe " + terminalList[0]);
-					
-					mAPDUSmartCard.openSession(cardTerminal);
-					String readerName = cardTerminal.getName();
-					List<byte[]> signCertValueList = mAPDUSmartCard.getSignatureCertificates();
-					
-					certificateList=new ArrayList<ECertificate>();
-					
-					for(byte[] signCertValue:signCertValueList)
-					{
-						ECertificate signCert = new ECertificate(signCertValue);
-						//Sadece nitelikli sertifikalar çekiliyor.
-						//Kanuni geçerliliği olmayan sertifikalarla imza atılmak istenirse bu kontrol kaldırılabilir.
-						//  if(signCert.isQualifiedCertificate()){
-						certificateList.add(signCert);
-						System.out.println("Sertifika Sahibi :"+signCert.getSubject().getCommonNameAttribute());
-						//}
-					}
-					//handler.sendEmptyMessage(1);
-					try
-					{
-						//Sleep for two seconds
-						Thread.sleep(2000);
-					}
-					catch (InterruptedException e)
-					{
-						e.printStackTrace(); //webView.loadUrl("javascript:console.log('hello');");
-					}
-					
-					
-					// imzala
-					
-					String sourceFilePath = "file:///storage/emulated/0/Download/udf/Isimsiz.udf", destFilePath;
-					
-					mAPDUSmartCard.login("");
-					ECertificate signCert = certificateList.get(0);
-					BaseSigner signer = mAPDUSmartCard.getSigner(signCert.asX509Certificate(), Algorithms.SIGNATURE_RSA_SHA1);
-					BaseSignedData bsd = new BaseSignedData();
-
-					System.out.println("--------------LOGIN BASARILI------------");
-					
-					ISignable content = new SignableFile(new File(sourceFilePath));
-					bsd.addContent(content);
-					//Since SigningTime attribute is optional,add it to optional attributes list
-					List<IAttribute> optionalAttributes = new ArrayList<IAttribute>();
-					optionalAttributes.add(new SigningTimeAttr(Calendar.getInstance()));
-					HashMap<String, Object> params = new HashMap<String, Object>();
-
-					params.put(EParameters.P_VALIDATE_CERTIFICATE_BEFORE_SIGNING,false);
-					bsd.addSigner(ESignatureType.TYPE_BES, signCert, signer, optionalAttributes, params);
-					byte [] signedDocument = bsd.getEncoded();
-					System.out.println("İmzalama işlemi tamamlandı. Dosyaya yazılacak. Imzali Veri ="+(signedDocument.toString()));
-					destFilePath = sourceFilePath+ ".imz";
-					//destFilePath = "/sdcard/sdcard0/SignedDoc.imz";
-					AsnIO.dosyayaz(signedDocument, destFilePath);
-					
-					try
-					{
-						mAPDUSmartCard.logout();
-						mAPDUSmartCard.closeSession();
-					}
-					catch(Exception ex)
-					{
-						ex.printStackTrace(); //webView.loadUrl("javascript:console.log('hello');");
-					}
-				}
-				catch (Exception e) {
-					e.printStackTrace(); //webView.loadUrl("javascript:console.log('hello');");
-				}
-				
-				this.echo(message, callbackContext);
-				
-				return true;
+				int certIndex = Integer.parseInt(args.getString(0));
+				String password = args.getString(1);
+				String filepath = args.getString(2);
+				return this.sign(certIndex, password, filepath, callbackContext);
 			}
 				
 				
@@ -242,3 +153,4 @@ package com.cem.echo;
             }
         }
     }
+

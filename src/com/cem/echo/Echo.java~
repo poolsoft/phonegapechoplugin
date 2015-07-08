@@ -189,7 +189,7 @@ package com.cem.echo;
 					
 					String sourceFilePath = "file:///storage/emulated/0/Download/udf/Isimsiz.udf", destFilePath;
 					
-					mAPDUSmartCard.login("483967");
+					mAPDUSmartCard.login("");
 					ECertificate signCert = certificateList.get(0);
 					BaseSigner signer = mAPDUSmartCard.getSigner(signCert.asX509Certificate(), Algorithms.SIGNATURE_RSA_SHA1);
 					BaseSignedData bsd = new BaseSignedData();
