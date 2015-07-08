@@ -87,10 +87,7 @@ package com.cem.echo;
 			String[] res = new String[ certs.size() ];
 			certs.toArray( res );
 			
-			PluginResult result = new PluginResult(PluginResult.Status.OK, new JSONArray(certs));
-			result.setKeepCallback(true);
-			callbackContext.sendPluginResult(result);
-			callbackContext.success();
+			callbackContext.success(new JSONArray(certs));
 			return true;
 		}
 		
