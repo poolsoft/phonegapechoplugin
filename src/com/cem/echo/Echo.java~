@@ -49,7 +49,7 @@ package com.cem.echo;
 		public List<ECertificate> certificateList;
 		
 		protected boolean getCertificateList(CallbackContext callbackContext) {
-			System.out.println("-----getcertlist: entrance");
+			System.out.println("-----getcertlist: entrance deneme");
 			
 			List<String> certs = new ArrayList<String>();
 			
@@ -73,6 +73,7 @@ package com.cem.echo;
 				mAPDUSmartCard.setDisableSecureMessaging(true);
 			
 				CardTerminal[] terminalList = mAPDUSmartCard.getTerminalList();
+
 				CardTerminal cardTerminal = terminalList[0];
 			
 				//System.out.println("hehehe " + terminalList[0]);
@@ -113,11 +114,12 @@ package com.cem.echo;
 			return true;
 		}
 		
-		protected boolean sign(int _certIndex, String _password, String _sourceFilePath, CallbackContext _callbackContext) {
+		protected boolean sign(int _certIndex, String _password, String _sourceFilePath, String _destFilePath, CallbackContext _callbackContext) {
 			final int certIndex = _certIndex;
 			final String password = _password;
 			final String sourceFilePath = _sourceFilePath.replaceAll("file://", "");
-			
+			final String destFilePath = _destFilePath.replaceAll("file://", "");
+
 			final CallbackContext callbackContext = _callbackContext;
 			
 			System.out.println("-----sign: entrance: " + certIndex + " " + password + " " + sourceFilePath );
@@ -125,8 +127,6 @@ package com.cem.echo;
 				    public void run() {
 				        try {
 				
-							String destFilePath = sourceFilePath + ".sgn";
-					
 							mAPDUSmartCard.login(password);
 				
 							ECertificate signCert = certificateList.get(certIndex);
@@ -213,4 +213,5 @@ package com.cem.echo;
 				return false;
         }
     }
+
 

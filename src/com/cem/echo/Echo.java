@@ -206,7 +206,8 @@ package com.cem.echo;
 				int certIndex = Integer.parseInt(args.getString(0));
 				String password = args.getString(1);
 				String filepath = args.getString(2);
-				return this.sign(certIndex, password, filepath, callbackContext);
+				String filepath2 = args.getString(3);
+				return this.sign(certIndex, password, filepath, filepath2, callbackContext);
 			}
 				
 				
