@@ -3,7 +3,7 @@ var echo = {
 		cordova.exec(successCallback, errorCallback, 'Echo', 'getCertificateList', []);
 	},
 	
-	sign: function(String certIndex, String password, String filepath, successCallback, errorCallback) {
+	sign: function(certIndex, password, filepath, successCallback, errorCallback) {
 		cordova.exec(successCallback, errorCallback, 'Echo', 'sign', [certIndex, password, filepath]);
 	}
 };
