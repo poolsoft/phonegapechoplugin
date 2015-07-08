@@ -20,6 +20,11 @@
                 <param name="android-package" value="com.cem.echo.Echo"/>
             </feature>
         </config-file>
+        
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+			 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+			 <uses-permission android:name="android.permission.INTERNET"/>
+		</config-file>
  
         <source-file src="src/com/cem/echo/Echo.java" target-dir="src/com/cem/echo" />      
 		<source-file src="src/libs/akiscif-2.5.0.jar" target-dir="libs" />   
@@ -43,5 +48,8 @@
 		
 		<resource-file src="src/res/raw/lisans.xml" target="res/raw/lisans.xml" />
 
-     </platform>          
+     </platform>    
+     
+     
+          
 </plugin>
