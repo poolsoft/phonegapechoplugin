@@ -87,10 +87,7 @@ package com.cem.echo;
 			String[] res = new String[ certs.size() ];
 			certs.toArray( res );
 			
-			PluginResult result = new PluginResult(PluginResult.Status.OK, new JSONArray(certs));
-			result.setKeepCallback(true);
-			callbackContext.sendPluginResult(result);
-			callbackContext.success();
+			callbackContext.success(new JSONArray(certs));
 			return true;
 		}
 		
@@ -147,14 +144,6 @@ package com.cem.echo;
 				
 				
 				return false;
-        }
-
-        private void echo(String message, CallbackContext callbackContext) {
-            if (message != null && message.length() > 0) {
-                callbackContext.success(message);
-            } else {
-                callbackContext.error("Expected one non-empty string argument.");
-            }
         }
     }
 

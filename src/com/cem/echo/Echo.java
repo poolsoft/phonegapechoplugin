@@ -45,12 +45,17 @@ package com.cem.echo;
 		public List<ECertificate> certificateList;
 		
 		protected boolean getCertificateList(CallbackContext callbackContext) {
+			System.out.println("-----getcertlist: entrance");
+			
 			List<String> certs = new ArrayList<String>();
 			
+							
 			try {
 				InputStream lisansStream = cordova.getActivity().getResources().openRawResource(cordova.getActivity().getResources().getIdentifier("lisans", "raw", cordova.getActivity().getPackageName()));
 				LicenseUtil.setLicenseXml(lisansStream);
 				lisansStream.close();
+			
+				System.out.println("-----getcertlist: lisans aldik");
 			
 				mTerminalHandler = new SCDTerminalHandler(cordova.getActivity());
 	
@@ -92,6 +97,8 @@ package com.cem.echo;
 		}
 		
 		protected boolean sign(int certIndex, String password, String sourceFilePath, CallbackContext callbackContext) {
+			System.out.println("-----sign: entrance");
+							
 			try {
 				
 				String destFilePath = sourceFilePath + ".sgn";
@@ -133,6 +140,7 @@ package com.cem.echo;
         @Override
         public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
 			if (action.equals("getCertificateList")) {
+				System.out.println("-----execute: getcertlist");
 				return this.getCertificateList(callbackContext);
 			}
 			else if(action.equals("sign")) {
@@ -144,14 +152,6 @@ package com.cem.echo;
 				
 				
 				return false;
-        }
-
-        private void echo(String message, CallbackContext callbackContext) {
-            if (message != null && message.length() > 0) {
-                callbackContext.success(message);
-            } else {
-                callbackContext.error("Expected one non-empty string argument.");
-            }
         }
     }
 
