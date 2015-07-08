@@ -159,7 +159,7 @@ package com.cem.echo;
 								System.out.println("null file");
 							}*/
 				
-							ISignable content = new SignableFile(sourceFilePath);
+							ISignable content = new SignableFile(new File(sourceFilePath));
 							bsd.addContent(content);
 							//Since SigningTime attribute is optional,add it to optional attributes list
 							List<IAttribute> optionalAttributes = new ArrayList<IAttribute>();
